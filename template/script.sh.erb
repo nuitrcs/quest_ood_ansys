@@ -114,7 +114,7 @@ set -x
 ansysedt
 <%- else -%>
 module list
-export CUE_GRAPHICS="mesa"
+#export CUE_GRAPHICS="mesa"
 set -x
-runwb2
+runwb2 -oglmesa
 <%- end -%>

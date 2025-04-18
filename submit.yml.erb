@@ -41,11 +41,7 @@ batch_connect:
     <%- end %>
 
     # Need to add the --nv flag if we are running on a GPU
-    <%- if gres_value != "" %>
     export SING_GPU="--nv"
-    <%- else %>
-    export SING_GPU=""
-    <%- end %>
 
     # Launch ANSYS Workbench
     <%- if version.include?("edt") -%>
