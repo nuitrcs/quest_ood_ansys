@@ -166,6 +166,9 @@ function set_available_accounts() {
   assocs = assocs.filter(({ partition }) => partition === selected_partition);
   const accounts = [...new Set(assocs.map(({ account }) => account))];
   replace_options($("#batch_connect_session_context_slurm_account"), accounts);
+  if (selected_partition === 'b1227') {
+    $("#batch_connect_session_context_slurm_account").val('b1227');
+  }
   return assocs
 }
 
