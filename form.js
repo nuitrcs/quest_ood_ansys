@@ -164,11 +164,29 @@ function set_available_accounts() {
   let assocs = get_associations();
   const selected_partition = $("#batch_connect_session_context_slurm_partition").val();
   assocs = assocs.filter(({ partition }) => partition === selected_partition);
-  const accounts = [...new Set(assocs.map(({ account }) => account))];
+  // --- TEMPORARY WORKAROUND (start) ---------------------------------------
+  // b1227's Slurm partition no longer has AllowGroups set, so the general
+  // association logic above incorrectly assigns general access (p*/e*)
+  // accounts to it instead of b1227. This is a known, longer-term bug being
+  // fixed elsewhere. Until then, force the account to b1227 here.
+  //
+  // ORIGINAL CODE (restore this and delete the workaround below once the
+  // underlying association/AllowGroups bug is fixed):
+  //
+  // const accounts = [...new Set(assocs.map(({ account }) => account))];
+  // replace_options($("#batch_connect_session_context_slurm_account"), accounts);
+  // if (selected_partition === 'b1227') {
+  //   $("#batch_connect_session_context_slurm_account").val('b1227');
+  // }
+  let accounts = [...new Set(assocs.map(({ account }) => account))];
+  if (selected_partition === 'b1227') {
+    accounts = ['b1227'];
+  }
   replace_options($("#batch_connect_session_context_slurm_account"), accounts);
   if (selected_partition === 'b1227') {
     $("#batch_connect_session_context_slurm_account").val('b1227');
   }
+  // --- TEMPORARY WORKAROUND (end) ------------------------------------------
   return assocs
 }
 
